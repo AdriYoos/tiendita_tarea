@@ -1,0 +1,37 @@
+
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_tiendita
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: frutas_del_diablo
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - tiendita_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_tiendita
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: user
+      PMA_PASSWORD: user_password
+    ports:
+      - "8080:80"
+    networks:
+      - tiendita_network
+
+volumes:
+  mysql_data:
+
+networks:
+  tiendita_network:
+    driver: bridge
